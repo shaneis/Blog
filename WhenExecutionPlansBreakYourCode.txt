@@ -1,0 +1,58 @@
+Words:
+Time to read:
+
+# Introduction:
+
+I'm currently going through Itzik Ben-Gan's book (//TODO: insert book name here) and we've reached the stage where we're going through 
+the "WITH RESULT SETS" (//TODO: insert link to Docs).
+
+Now, to be honest, I've never seen them in the wild. Apart from the nice trick of renaming the columns that show to the screen, I don't know that I would use them that much.
+That is mainly just because I am not fond of stored procedures that output two different result sets.
+
+That's not the point of this blog post though. The point of this blog post is to show a weird piece of behaviour that I have never seen before.
+
+# Isn't She Lovely:
+
+I'm running this on (//TODO: insert version info of SQL Server) and I'm running the following code as examples.
+
+```TSQL
+//TODO: insert TSQL code to check SQL version
+//TODO: insert TSQL code to create tables and stored procedures.
+```
+
+//TODO: insert screenshot of version info 
+
+# Signed, Sealed, Delivered:
+
+As I said, the main reason that I can think of using WITH RESULT SETS for would be to rename the results of a stored procedure.
+
+```TSQL
+TODO: show the use of WITH RESULT SET to show renaming stored procedure results
+```
+
+//TODO: insert screenshot of WRS renaming stored procedure results
+
+# For Once In My Life:
+
+Now imagine my surprise when, going through the examples in the book, I run the above code and receive an error message
+
+//TODO: insert error message snippit
+
+//TODO: insert error message screenshot.
+
+So I turn back to the book and read the next line "[...] once that has completed successfully[...]" 
+Huh, what? Completed successfully?
+
+So I run through my checklist
+- Have I missed a previous step? No.
+- Have I messed up a previous step? No.
+- Have I run things out of order. No.
+- Have I accidently only run part of the script. No.
+
+Nothing is jumping out at me so I go off script. What's the error message saying? 
+Difference in columns? That's not making any sense
+
+# Master Blaster:
+
+**Update**: I was runnning this on (//TODO: insert version info of SQL Server) and I tried to verify the behaviour.
+Nope! No problem! That's the second thing that I've found naturally that's been fixed in newer versions of SQL Server (//TODO: insert link to Grant Fritchey Dr.Who post).
