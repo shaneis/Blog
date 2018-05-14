@@ -1,15 +1,6 @@
 USE tempdb;
 GO
 
-IF OBJECT_ID(N'dbo.Header', N'U') IS NOT NULL DROP TABLE dbo.Header;
-GO
-CREATE TABLE dbo.Header (
-    Id TINYINT NOT NULL IDENTITY(1, 1) CONSTRAINT PK_Header_Id PRIMARY KEY,
-    CreateDate DATE NOT NULL CONSTRAINT DF_Header_CreateDate_SYSDATETIME DEFAULT SYSDATETIME(),
-    RandomData CHAR(50) NOT NULL CONSTRAINT DF_Header_RandomData_X DEFAULT (REPLICATE('X', 50))
-);
-GO
-
 IF OBJECT_ID(N'dbo.Header2', N'U') IS NOT NULL DROP TABLE dbo.Header2;
 GO
 CREATE TABLE dbo.Header2 (
@@ -19,8 +10,17 @@ CREATE TABLE dbo.Header2 (
 );
 GO
 
+IF OBJECT_ID(N'dbo.Header', N'U') IS NOT NULL DROP TABLE dbo.Header;
+GO
+CREATE TABLE dbo.Header (
+    Id TINYINT NOT NULL IDENTITY(1, 1) CONSTRAINT PK_Header_Id PRIMARY KEY,
+    CreateDate DATE NOT NULL CONSTRAINT DF_Header_CreateDate_SYSDATETIME DEFAULT SYSDATETIME(),
+    RandomData CHAR(50) NOT NULL CONSTRAINT DF_Header_RandomData_X DEFAULT (REPLICATE('X', 50))
+);
+GO
+
 INSERT INTO dbo.Header2 (Id, RandomData) 
-SELECT Id, CAST(Id AS VARCHAR(2)) + RandomData
+SELECT Id, REPLICATE('Y', Id)
 FROM (
     INSERT INTO dbo.Header (CreateDate)
     OUTPUT inserted.CreateDate, inserted.Id, inserted.RandomData
