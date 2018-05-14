@@ -76,6 +76,8 @@ In case you're wondering, I'm not running the SELECT statements twice. Here's th
 I turn off Actual Execution Plans and everything is working again!
 
 
+So I start reading the error message and it's not making any sense for me. The columns are exactly the a
+
 # Master Blaster:
 
 In case you are worried about this happening to you, don't be!
