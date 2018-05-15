@@ -6,10 +6,9 @@ Time to read:
 I'm currently going through Itzik Ben-Gan's book (//TODO: insert book name here) and we've reached the stage where we're going through 
 the "WITH RESULT SETS" (//TODO: insert link to Docs).
 
-Now, to be honest, I've never seen them in the wild. Apart from the nice trick of renaming the columns that show to the screen, I don't know that I would use them that much.
-That is mainly just because I am not fond of stored procedures that output two different result sets.
+Now, to be honest, I've never seen them in the wild. I think that this is mainly just because I am not fond of stored procedures that output two different result sets.
 
-That's not the point of this blog post though. The point of this blog post is to show a weird piece of behaviour that I have never seen before.
+That's not the point of this blog post though. The point of this blog post is to show you how to quickly rename the columns from a stored procedure and, if you've read the first 2 sentences, you know that we're going to be doing this using WITH RESULT SETS
 
 # Isn't She Lovely:
 
@@ -24,7 +23,7 @@ I'm running this on (//TODO: insert version info of SQL Server) and I'm running 
 
 # Signed, Sealed, Delivered:
 
-As I said, the main reason that I can think of using WITH RESULT SETS for would be to rename the results of a stored procedure.
+As I said, we're going to be using WITH RESULT SETS to rename the output columns of a stored procedure.
 
 ```TSQL
 TODO: show the use of WITH RESULT SET to show renaming stored procedure results
@@ -32,7 +31,9 @@ TODO: show the use of WITH RESULT SET to show renaming stored procedure results
 
 //TODO: insert screenshot of WRS renaming stored procedure results
 
-# For Once In My Life:
+# Uptight:
+
+SURPRISE!
 
 Now imagine my surprise when, going through the examples in the book, I run the above code and receive an error message
 
@@ -50,9 +51,33 @@ So I run through my checklist
 - Have I accidently only run part of the script. No.
 
 Nothing is jumping out at me so I go off script. What's the error message saying? 
-Difference in columns? That's not making any sense
+Difference in columns? That's not making any sense.
+
+I quickly write out the two SELECT statements and run them separately. They execute without problems.
+I start switching through the different panels and suddenly something pops out at me.
+
+```quote
+(1 row affected)
+(1 row affected)
+(1 row affected)
+(1 row affected)
+```
+# For Once In My Life:
+
+In case you're wondering, I'm not running the SELECT statements twice. Here's the same messages with reference to what is causing them:
+
+```quote
+(1 row affected) <-- dbo.Header
+(1 row affected) <-- Actual Execution Plan
+(1 row affected) <-- dbo.Header2
+(1 row affected) <-- Actual Execution Plan
+```
+
+I turn off Actual Execution Plans and everything is working again!
+
 
 # Master Blaster:
 
-**Update**: I was runnning this on (//TODO: insert version info of SQL Server) and I tried to verify the behaviour.
+In case you are worried about this happening to you, don't be!
+I was runnning this on (//TODO: insert version info of SQL Server) and I tried to verify the behaviour.
 Nope! No problem! That's the second thing that I've found naturally that's been fixed in newer versions of SQL Server (//TODO: insert link to Grant Fritchey Dr.Who post).
