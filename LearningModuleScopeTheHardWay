@@ -47,9 +47,9 @@ $Mod3 = [Scriptblock]::Create('param([int]$Number)
     }')
 1..15 | ForEach-Object {
     switch ($_) {
-        { $_ % 15 -eq 0 } {++$FizzBuzzOccurrences; & $Mod15; break }
-        { $_ % 5 -eq 0 }  {++$BuzzOccurrences;     & $Mod5;  break }
-        { $_ % 3 -eq 0 }  {++$FizzOccurrences;     & $Mod3;  break }
+        { $_ % 15 -eq 0 } {++$FizzBuzzOccurrences; $Mod15.InvokeReturnAsIs($_); break }
+        { $_ % 5 -eq 0 }  {++$BuzzOccurrences;     $Mod5.InvokeReturnAsIs($_);  break }
+        { $_ % 3 -eq 0 }  {++$FizzOccurrences;     $Mod3.InvokeReturnAsIs($_);  break }
     }
     [PSCustomObject]@{
         Number     = $_
@@ -85,18 +85,67 @@ $Mod3 = [Scriptblock]::Create('param([int]$Number)
     }')
 1..15 | ForEach-Object {
     switch ($_) {
-        { $_ % 15 -eq 0 } {++$FizzBuzzOccurrences; & $Mod15; break }
-        { $_ % 5 -eq 0 }  {++$BuzzOccurrences;     & $Mod5;  break }
-        { $_ % 3 -eq 0 }  {++$FizzOccurrences;     & $Mod3;  break }
+        { $_ % 15 -eq 0 } {++$FizzBuzzOccurrences; break }
+        { $_ % 5 -eq 0 }  {++$BuzzOccurrences; break }
+        { $_ % 3 -eq 0 }  {++$FizzOccurrences; break }
     }
     [PSCustomObject]@{
         Number     = $_
         Fizzed     = $FizzOccurrences
         Buzzed     = $BuzzOccurrences
         FizzBuzzed = $FizzBuzzOccurrences
-        FizzRunningTotal = & $Mod3 -argumentlist $_
-        BuzzRunningTotal = $BuzzRunningTotal
-        FizzBuzzRunningTotal = $FizzBuzzRunningTotal
+        FizzRunningTotal = $Mod3.InvokeReturnAsIs($_)
+        BuzzRunningTotal = $Mod5.InvokeReturnAsIs($_)
+        FizzBuzzRunningTotal = $Mod15.InvokeReturnAsIs($_)
     }
 } | Format-Table -AutoSize
 #endregion
+
+#region OneWay
+[int]$FizzBuzzOccurrences = 1
+[int]$FizzBuzzRunningTotal = 0
+[int]$FizzOccurrences = 0
+[int]$FizzRunningTotal = 0
+[int]$BuzzOccurrences = 0
+[int]$BuzzRunningTotal = 0
+$Mod15 = [Scriptblock]::Create('param([int]$Number)
+    if ($Number % 15 -eq 0) {
+        $FizzBuzzRunningTotal + $_
+    }')
+$Mod5 = [Scriptblock]::Create('param([int]$Number)
+    if ($Number % 5 -eq 0) {
+       $BuzzRunningTotal + $_
+    }')
+$Mod3 = [Scriptblock]::Create('param([int]$Number)
+    if ($Number % 3 -eq 0) {
+       $FizzRunningTotal + $_
+    }')
+1..15 | ForEach-Object {
+    switch ($_) {
+        { $_ % 15 -eq 0 } {
+            ++$FizzBuzzOccurrences
+            $FizzBuzzRunningTotal = $Mod15.InvokeReturnAsIs($_)
+            break
+        }
+        { $_ % 5 -eq 0 } {
+            ++$BuzzOccurrences
+            $BuzzRunningTotal = $Mod5.InvokeReturnAsIs($_)
+            break
+        }
+        { $_ % 3 -eq 0 } {
+            ++$FizzOccurrences
+            $FizzRunningTotal = $Mod3.InvokeReturnAsIs($_)
+            break
+        }
+    }
+    [PSCustomObject]@{
+        Number     = $_
+        Fizzed     = $FizzOccurrences
+        Buzzed     = $BuzzOccurrences
+        FizzBuzzed = $FizzBuzzOccurrences
+        FizzRunningTotal = $FizzRunningTotal
+        BuzzRunningTotal = $BuzzRunningTotal
+        FizzBuzzRunningTotal = $FizzBuzzRunningTotal
+    }   
+} | Format-Table -AutoSize
+#endrgion
