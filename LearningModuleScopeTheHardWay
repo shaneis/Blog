@@ -107,11 +107,36 @@ $Mod15 = [Scriptblock]::Create('param([int]$Number) if ($Number % 15 -eq 0) { $F
 $Mod5 = [Scriptblock]::Create('param([int]$Number) if ($Number % 5 -eq 0) { $BuzzRunningTotal + $_ }')
 $Mod3 = [Scriptblock]::Create('param([int]$Number) if ($Number % 3 -eq 0) { $FizzRunningTotal + $_ }')
 1..15 | ForEach-Object {
+
+    $FizzRunningTotal = $Mod3.InvokeReturnAsIs($_)
+    $BuzzRunningTotal = $Mod5.InvokeReturnAsIs($_)
+    $FizzBuzzRunningTotal = $Mod15.InvokeReturnAsIs($_)
+
     [PSCustomObject]@{
         Number     = $_
-        FizzRunningTotal = ($FizzRunningTotal = $Mod3.InvokeReturnAsIs($_))
-        BuzzRunningTotal = ($BuzzRunningTotal = $Mod5.InvokeReturnAsIs($_))
-        FizzBuzzRunningTotal = ($FizzBuzzRunningTotal = $Mod15.InvokeReturnAsIs($_))
+        FizzRunningTotal = $FizzRunningTotal
+        BuzzRunningTotal = $BuzzRunningTotal
+        FizzBuzzRunningTotal = $FizzBuzzRunningTotal
+    }   
+} | Format-Table -AutoSize
+
+[int]$FizzRunningTotal = 0
+[int]$FizzBuzzRunningTotal = 0
+[int]$BuzzRunningTotal = 0
+$Mod15 = [Scriptblock]::Create('param([int]$Number) if ($Number % 15 -eq 0) { $FizzBuzzRunningTotal + $_ } else { $FizzBuzzRunningTotal }')
+$Mod5 = [Scriptblock]::Create('param([int]$Number) if ($Number % 5 -eq 0) { $BuzzRunningTotal + $_ } else { $BuzzRunningTotal }')
+$Mod3 = [Scriptblock]::Create('param([int]$Number) if ($Number % 3 -eq 0) { $FizzRunningTotal + $_ } else { $FizzRunningTotal }')
+1..15 | ForEach-Object {
+
+    $FizzRunningTotal = $Mod3.InvokeReturnAsIs($_)
+    $BuzzRunningTotal = $Mod5.InvokeReturnAsIs($_)
+    $FizzBuzzRunningTotal = $Mod15.InvokeReturnAsIs($_)
+
+    [PSCustomObject]@{
+        Number     = $_
+        FizzRunningTotal = $FizzRunningTotal
+        BuzzRunningTotal = $BuzzRunningTotal
+        FizzBuzzRunningTotal = $FizzBuzzRunningTotal
     }   
 } | Format-Table -AutoSize
 #endregion
