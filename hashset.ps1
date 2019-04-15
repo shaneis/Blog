@@ -23,3 +23,16 @@ foreach ($Key in ($Bar.PSObject.Properties.Name)) {
 }
 
 $HashSet
+
+# Proper Union?
+$Foo02 = [System.Collections.Generic.HashSet[Int]]::new()
+$Bar02 = [System.Collections.Generic.HashSet[Int]]::new()
+
+1..10 | ForEach-Object { $null = $Foo02.Add($_) }
+5..15 | ForEach-Object { $null = $Bar02.Add($_) }
+
+$Foo02
+$Bar02
+
+$Foo02.UnionWith($Bar02)
+$Foo02
