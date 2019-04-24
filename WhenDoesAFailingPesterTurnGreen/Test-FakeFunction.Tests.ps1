@@ -4,6 +4,8 @@ $sut = (Split-Path -Leaf $MyInvocation.MyCommand.Path) -replace '\.Tests\.', '.'
 
 Describe "Test-FakeFunction" {
     It "does something useful" {
-        $true | Should -Be $false
+        It 'should pass by deafult' {
+            $true | Should -Be $false
+        }
     }
 }
