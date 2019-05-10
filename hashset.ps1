@@ -1,38 +1,23 @@
-$Foo = [PSCustomObject]@{
-    A = 1
-    B = 2
-}
-$Bar = [PSCustomObject]@{
-    A = 1
-    B = 5
-}
-$HashSet = [System.Collections.Generic.HashSet[PSCustomObject]]::new()
+$Boom = 1
+$Blast = 2
+$And = 3
+$Ruin = 4
+
+$HashSet = [System.Collections.Generic.HashSet[Int]]::new()
+
+#Or try a different object with the same name.
 
 # Union All
-$HashSet.Add($Foo)
-$HashSet.Add($Bar)
+foreach ($item in $Boom,$Blast,$And,$Ruin) {
+    $HashSet.Add($Item)
+}
+
 
 $HashSet
 
-# Union
-foreach ($Key in ($Foo.PSObject.Properties.Name)) {
-    $HashSet.Add(($Foo.$Key))
+# Duplicate time.
+$HashSet.Clear()
+foreach ($item in $Boom,$Blast,$And,$Boom) {
+    $HashSet.Add($item)
 }
-foreach ($Key in ($Bar.PSObject.Properties.Name)) {
-    $HashSet.Add(($Bar.$Key))
-}
-
 $HashSet
-
-# Proper Union?
-$Foo02 = [System.Collections.Generic.HashSet[Int]]::new()
-$Bar02 = [System.Collections.Generic.HashSet[Int]]::new()
-
-1..10 | ForEach-Object { $null = $Foo02.Add($_) }
-5..15 | ForEach-Object { $null = $Bar02.Add($_) }
-
-$Foo02
-$Bar02
-
-$Foo02.UnionWith($Bar02)
-$Foo02
