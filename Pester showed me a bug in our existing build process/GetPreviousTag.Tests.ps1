@@ -2,7 +2,7 @@ $here = Split-Path -Parent $MyInvocation.MyCommand.Path
 $sut = (Split-Path -Leaf $MyInvocation.MyCommand.Path) -replace '\.Tests\.', '.'
 . "$here\$sut"
 
-Describe "Get-PreviousTag" {
+Describe "GetPreviousTag" {
     Context -Name 'Pass' -Fixture {
         Mock -CommandName git -MockWith {
             'refs/tags/8.1.0.a.60-61-gc6eefe4'
