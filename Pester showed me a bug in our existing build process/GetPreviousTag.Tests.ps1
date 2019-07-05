@@ -5,11 +5,11 @@ $sut = (Split-Path -Leaf $MyInvocation.MyCommand.Path) -replace '\.Tests\.', '.'
 Describe "GetPreviousTag" {
     Context -Name 'Pass' -Fixture {
         Mock -CommandName git -MockWith {
-            'refs/tags/8.1.0.a.60-61-gc6eefe4'
+            'refs/tags/1.1.0.a.1-33-gcfsxxxxx'
         }
 
         It -Name 'returns expected previous tag' -Test {
-            GetPreviousTag | Should -BeExactly '8.1.0.a.60'
+            GetPreviousTag | Should -BeExactly '1.1.0.a.1'
         }
     }
 
@@ -23,7 +23,7 @@ Describe "GetPreviousTag" {
 
     Context -Name 'Fail : regex does not match' -Fixture {
         Mock -CommandName git -MockWith {
-            'refs/tags/NothingToSeeHere-61-gc6eefe4'
+            'refs/tags/NothingToSeeHere-33-gcfsxxxxx'
         }
 
         It -Name 'returns false' -Test {
