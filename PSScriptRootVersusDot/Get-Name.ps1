@@ -8,7 +8,16 @@ function Get-Name {
 
     begin {}
 
-    process {}
+    process {
+        if (-not ($PSBoundParameters.ContainsKey('Name'))) {
+            $Name = 'there'
+        }
+        
+        [PSCustomObject]@{
+            Name = $Name
+            Message = "Hello $Name"
+        }
+    }
 
     end {}
 }
