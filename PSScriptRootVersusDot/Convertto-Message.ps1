@@ -16,11 +16,11 @@ function ConvertTo-Message {
 
         if ($PSBoundParameters.ContainsKey('Receiver')) {
             $GetNameParams.Add('Name', $Receiver)
-            Write-Verbose $GetNameParams
+            Write-Verbose ($GetNameParams | Out-String)
         }
 
         $MessageDetails = Get-Name @GetNameParams
 
-        "To $($MessageDetails.Name), $($MessageDetails.Message)"
+        "To $($MessageDetails.Name),`n$($MessageDetails.Message)"
     }
 }
