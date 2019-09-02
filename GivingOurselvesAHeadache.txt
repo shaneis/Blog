@@ -1,0 +1,15 @@
+Let's Give Ourselves A Headache!
+
+We're going to create a generic stored procedure that's only going to do 3 things.
+
+Create a table if it does not exist,
+Insert the value of the parameter into the table, and
+Spit the value back out from the table.
+
+Sounds simple right? Let's see how we can cause ourselves some pain.
+
+When we write the code for the stored procedure, and before we execute it, we can see a lot of
+red squiggly text around the name of the stored procedure and the name of the table.
+
+Thanks to the joy that is Deferred Name Resolution (https://docs.microsoft.com/en-us/sql/t-sql/statements/create-procedure-transact-sql?view=sql-server-2017#limitations-and-restrictions)
+that allows us to create a stored procedure on tables that do not exist just yet.
