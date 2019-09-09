@@ -1,7 +1,7 @@
 Describe -Name 'Context Skipping' -Fixture {
     Context -Name 'Skip this' -Fixture {
         It -Name 'should return 2 when passed 1 + 1' -Test {
-            1 + 1 | Should -Be 3
+            1 - 1 | Should -Be 2
         }
     }
 
